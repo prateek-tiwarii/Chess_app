@@ -1,4 +1,5 @@
 import { WebSocket } from "ws"
+import { INIT_GAME } from "./messages";
 
 
 export class GameManager{
@@ -8,12 +9,14 @@ export class GameManager{
 
     constructor (){
     
-        this.games : []
+        this.games = []
     }
 
     addUser(socket :WebSocket){
 
         this.users.push(socket);
+        this.addHandler(socket);
+
 
 
     }
@@ -26,7 +29,15 @@ export class GameManager{
 
 
 
-    private handleMessage(){
+    private addHandler(socket : WebSocket){
+     
+        socket.on("message",(data)=>{
+            const message = JSON.parse(data.toString());
+
+            if(message.type === INIT_GAME){
+                  this.joinGame(socket)
+            }
+        })
 
     }
 }
