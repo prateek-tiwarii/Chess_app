@@ -4,7 +4,7 @@ import { INIT_GAME } from "./messages";
 
 export class GameManager{
     private games : Games[];
-    private pending : WebSocket;
+    private pendingUser : WebSocket;
     private users : WebSocket[]
 
     constructor (){
@@ -35,7 +35,17 @@ export class GameManager{
             const message = JSON.parse(data.toString());
 
             if(message.type === INIT_GAME){
-                  this.joinGame(socket)
+
+                if(this.pendingUser){
+                    // start game
+                }
+                else{
+                          
+                    this.pendingUser = socket;
+                    
+
+                }
+                  
             }
         })
 
