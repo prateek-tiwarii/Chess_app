@@ -1,15 +1,18 @@
 import { WebSocket } from "ws"
-import { INIT_GAME } from "./messages";
+import { INIT_GAME, MOVE } from "./messages";
+import { Game } from "./Game";
 
 
 export class GameManager{
-    private games : Games[];
-    private pendingUser : WebSocket;
+    private games : Game[];
+    private pendingUser : WebSocket | null;
     private users : WebSocket[]
 
     constructor (){
     
         this.games = []
+        this.pendingUser = null;
+        this.users = []
     }
 
     addUser(socket :WebSocket){
@@ -37,15 +40,22 @@ export class GameManager{
             if(message.type === INIT_GAME){
 
                 if(this.pendingUser){
-                    // start game
+                    const game = new Game(this.pendingUser,  socket,);
+                    this.games.push(game);
+                    this.pendingUser = null;
+
                 }
                 else{
                           
                     this.pendingUser = socket;
-                    
+
 
                 }
                   
+            }
+
+            if(message.type === MOVE){
+
             }
         })
 
