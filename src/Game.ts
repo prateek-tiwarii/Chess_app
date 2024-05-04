@@ -33,7 +33,7 @@ export class Game{
             return;
         }
 
-        if(this.board.move.length %2 == 0 && socket != this.player1){
+        if(this.board.move.length %2 == 0 && socket != this.player2){
             return;
         }
 

@@ -3,14 +3,15 @@ import { GameManager } from './GameManager';
 
 const wss = new WebSocketServer({ port: 8080 });
 
-const GameManager = new GameManager();
+const gameManager = new GameManager();
 
 
 wss.on('connection', function connection(ws) {
-  GameManager.addUser(ws);
+  gameManager.addUser(ws);
   
 
-  ws.on('disconnect', () =>{ GameManager.removeUser(ws)}
+  ws.on('disconnect', () =>{ gameManager.removeUser(ws)}
   );
 
 });
+
