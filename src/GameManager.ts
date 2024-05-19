@@ -40,7 +40,7 @@ export class GameManager{
             if(message.type === INIT_GAME){
 
                 if(this.pendingUser){
-                    const game = new Game(this.pendingUser,  socket,);
+                    const game = new Game(this.pendingUser,  socket);
                     this.games.push(game);
                     this.pendingUser = null;
 
@@ -55,6 +55,11 @@ export class GameManager{
             }
 
             if(message.type === MOVE){
+
+                const game = this.games.find(game=> game.player1 === socket || game.player2 === socket);
+                if(game){
+                    game.makeMove(socket, message.move)
+                }
 
             }
         })

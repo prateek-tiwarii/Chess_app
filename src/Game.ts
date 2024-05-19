@@ -19,6 +19,21 @@ export class Game{
         this.player2 = player2;
         this.board = new Chess();
         this.startTime = new Date();
+
+        this.player1.send(JSON.stringify({
+            type : "init_game",
+            payload : {
+                color : "white"
+            }
+        }));
+
+        
+        this.player2.send(JSON.stringify({
+            type : "init_game",
+            payload : {
+                color : "black"
+            }
+        }));
         
 
     }
@@ -44,18 +59,18 @@ export class Game{
         }
 
         if(this.board.isGameOver()){
-            this.player1.emit(JSON.stringify({
+            this.player1.send(JSON.stringify({
                 type: GAME_OVER,
                 payload : {
                     winner : this.board.turn() === "w"? "black" : "white"
                 }
             }));
-            this.player2.emit("Game Over");
+            this.player2.send("Game Over");
             return;
         }
 
         if(this.board.move.length%2 == 0){
-            this.player2.emit(JSON.stringify({
+            this.player2.send(JSON.stringify({
                 type : MOVE,
                 payload: move
             }))
@@ -63,7 +78,7 @@ export class Game{
 
         else{
 
-            this.player1.emit(JSON.stringify({
+            this.player1.send(JSON.stringify({
                 type : MOVE,
                 payload: move
             }))
